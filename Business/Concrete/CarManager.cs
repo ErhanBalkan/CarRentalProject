@@ -5,7 +5,7 @@ using Entities.Concrete;
 namespace Business.Concrete;
 public class CarManager : ICarService
 {
-    ICarDal _carDal;
+    readonly ICarDal _carDal;
     public CarManager(ICarDal carDal)
     {
         _carDal = carDal;
@@ -27,7 +27,7 @@ public class CarManager : ICarService
 
     public Car GetById(int carId)
     {
-        return _carDal.GetById(carId);
+        return _carDal.Get(c => c.CarId == carId);
     }
 
     public void Update(Car car)
