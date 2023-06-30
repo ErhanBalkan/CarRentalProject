@@ -15,3 +15,5 @@ C:\Users\erhan\Desktop\CarRentalProject\Business\obj\Debug\net6.0\Business.dll
 C:\Users\erhan\Desktop\CarRentalProject\Business\obj\Debug\net6.0\refint\Business.dll
 C:\Users\erhan\Desktop\CarRentalProject\Business\obj\Debug\net6.0\Business.pdb
 C:\Users\erhan\Desktop\CarRentalProject\Business\obj\Debug\net6.0\ref\Business.dll
+C:\Users\erhan\Desktop\CarRentalProject\Business\bin\Debug\net6.0\Core.dll
+C:\Users\erhan\Desktop\CarRentalProject\Business\bin\Debug\net6.0\Core.pdb

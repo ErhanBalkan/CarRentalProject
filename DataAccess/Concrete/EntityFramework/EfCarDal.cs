@@ -1,46 +1,25 @@
-using System.Linq.Expressions;
+using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Microsoft.EntityFrameworkCore;
+using Entities.DTOs;
 
 namespace DataAccess.Concrete.EntityFramework;
-public class EfCarDal : ICarDal
+public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalContext>, ICarDal
 {
-    public void Add(Car entity)
+    public List<CarDetailDto> GetCarDetails()
     {
-        using CarRentalContext carRentalContext = new();
-        var addedEntity = carRentalContext.Entry(entity);
-        addedEntity.State = EntityState.Added;
-        carRentalContext.SaveChanges();
-    }
-
-    public void Delete(Car entity)
-    {
-        using CarRentalContext carRentalContext = new();
-        var deletedEntity = carRentalContext.Entry(entity);
-        deletedEntity.State = EntityState.Deleted;
-        carRentalContext.SaveChanges();
-    }
-
-    public Car Get(Expression<Func<Car, bool>> filter)
-    {
-        using CarRentalContext carRentalContext = new();
-        return carRentalContext.Set<Car>().SingleOrDefault(filter);
-    }
-
-    public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-    {
-        using CarRentalContext carRentalContext = new();
-        return filter == null 
-        ? carRentalContext.Set<Car>().ToList()
-        : carRentalContext.Set<Car>().Where(filter).ToList();
-    }
-
-    public void Update(Car entity)
-    {
-        using CarRentalContext carRentalContext = new();
-        var updatedEntity = carRentalContext.Entry(entity);
-        updatedEntity.State = EntityState.Modified;
-        carRentalContext.SaveChanges();
+        using CarRentalContext context = new();
+        var result = from c in context.Cars
+                     join clr in context.Colors
+                     on c.ColorId equals clr.ColorId
+                     join b in context.Brands
+                     on c.BrandId equals b.BrandId
+                     select new CarDetailDto{
+                        BrandName = b.BrandName,
+                        CarName = c.CarName,
+                        ColorName = clr.ColorName,
+                        DailyPrice = c.DailyPrice
+                     };
+                     return result.ToList();
     }
 }

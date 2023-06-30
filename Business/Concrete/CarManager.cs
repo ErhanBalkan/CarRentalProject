@@ -1,6 +1,7 @@
 using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Concrete;
 public class CarManager : ICarService
@@ -12,7 +13,10 @@ public class CarManager : ICarService
     }
     public void Add(Car car)
     {
-        _carDal.Add(car);
+        if (car.CarName.Length >= 2)
+            _carDal.Add(car);
+        System.Console.WriteLine("Araba ismi minimum 2 karakter olmalıdır.");
+        
     }
 
     public void Delete(Car car)
@@ -28,6 +32,11 @@ public class CarManager : ICarService
     public Car GetById(int carId)
     {
         return _carDal.Get(c => c.CarId == carId);
+    }
+
+    public List<CarDetailDto> GetCarDetails()
+    {
+        return _carDal.GetCarDetails();
     }
 
     public void Update(Car car)
